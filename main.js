@@ -65,3 +65,22 @@ class DayView {
 
 const dayView = new DayView(state);
 document.getElementById('app').append(dayView.el);
+
+async function callRpc(methodName, params = {}) {
+  const resp = await fetch('/rpc/' + methodName, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  });
+
+  const data = await resp.json();
+  return data;
+}
+
+callRpc('say:hi')
+  .then((resp) => {
+    console.log(resp);
+  })
+  .catch((err) => console.error(err));
